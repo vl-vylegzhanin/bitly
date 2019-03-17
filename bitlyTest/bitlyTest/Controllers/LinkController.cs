@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bitlyTest.Controllers
 {
+    [ApiVersion("1.0")]
     [ApiController]
     public class LinkController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace bitlyTest.Controllers
         }
 
         [HttpGet]
-        [Route("api/links/{id}")]
+        [Route("api/v{version:apiVersion}/links/{id}")]
         public ActionResult Get([FromRoute] int id)
         {
             var originalUrl = _urlsRepository.GetOriginalLinkByTrimmerUrl(id);
@@ -25,7 +26,7 @@ namespace bitlyTest.Controllers
         }
 
         [HttpPut]
-        [Route("api/links/{url}")]
+        [Route("api/v{version:apiVersion}/links/{url}")]
         public ActionResult Put([FromRoute] string url)
         {
             var id = _urlsRepository.GetNextId();

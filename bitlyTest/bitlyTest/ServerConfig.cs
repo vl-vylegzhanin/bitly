@@ -4,6 +4,6 @@ namespace bitlyTest
 {
     public class ServerConfig
     {
-        public MongoDbCredentials MongoDbCredentials { get; set; } = new MongoDbCredentials();
+        public MongoDbConfig MongoDB { get; set; } = new MongoDbConfig();
     }
 }

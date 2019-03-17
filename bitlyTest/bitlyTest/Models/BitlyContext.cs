@@ -5,7 +5,7 @@ namespace bitlyTest.Models
     public class BitlyContext : IBitlyContext
     {
         private readonly IMongoDatabase _db;
-        public BitlyContext(MongoDbCredentials config)
+        public BitlyContext(MongoDbConfig config)
         {
             var client = new MongoClient(config.ConnectionString);
             _db = client.GetDatabase(config.Database);

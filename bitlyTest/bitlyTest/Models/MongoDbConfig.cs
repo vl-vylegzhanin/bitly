@@ -1,6 +1,6 @@
 ﻿namespace bitlyTest.Models
 {
-    public class MongoDbCredentials
+    public class MongoDbConfig
     {
         public string Database { get; set; }
         public string Host { get; set; }
