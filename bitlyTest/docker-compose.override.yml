@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  bitlytest:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - "80"
+
+networks:
+  default:
+    external:
+      name: nat
