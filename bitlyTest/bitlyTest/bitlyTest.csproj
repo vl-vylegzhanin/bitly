@@ -6,6 +6,10 @@
     <UserSecretsId>fc77d58b-4456-4466-afa1-c0b9661ba120</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\repo\bitly\bitlyTest\bitlyTest\bitlyTest.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>

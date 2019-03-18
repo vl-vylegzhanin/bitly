@@ -64,20 +64,20 @@ namespace bitlyTest
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    foreach (var description in provider.ApiVersionDescriptions)
-                    {
-                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"Bitly Test API {description.GroupName.ToUpperInvariant()}");
-                    }
-                });
             }
             else
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"Bitly Test API {description.GroupName.ToUpperInvariant()}");
+                }
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
