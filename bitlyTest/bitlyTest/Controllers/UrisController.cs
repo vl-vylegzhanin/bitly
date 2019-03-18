@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using bitlyTest.Models;
-using bitlyTest.Repositories;
+using bitlyTest.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bitlyTest.Controllers
@@ -11,21 +9,19 @@ namespace bitlyTest.Controllers
     [Produces("application/json")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class UrlsController : ControllerBase
+    public class UrisController : ControllerBase
     {
-        private readonly IUrlsRepository _urlsRepository;
+        private readonly IUriHandler _uriHandler;
 
-        public UrlsController(IUrlsRepository urlsRepository)
+        public UrisController(IUriHandler uriHandler)
         {
-            _urlsRepository = urlsRepository;
+            _uriHandler = uriHandler;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> Get()
         {
-            var result = await _urlsRepository.GetTransformedData();
+            var result = await _uriHandler.GetUrlsWithTransitionStatistics();
             return Ok(result);
         }
-
-        
     }
 }

@@ -6,22 +6,22 @@ using MongoDB.Driver;
 
 namespace bitlyTest.Repositories
 {
-    public class UrlsRepository : IUrlsRepository
+    public class UrisRepository : IUrisRepository
     {
         private readonly IBitlyContext _context;
-        public UrlsRepository(IBitlyContext context)
+        public UrisRepository(IBitlyContext context)
         {
             _context = context;
         }
 
-        public async Task SaveShortLink(TransformationData transformationData)
+        public async Task SaveUrl(RedirectionData redirectionData)
         {
-            await _context.TransformationData.InsertOneAsync(transformationData);
+            await _context.TransformationData.InsertOneAsync(redirectionData);
         }
 
         public async Task<string> GetOriginalLinkByTrimmerUrl(int trimmedUrlId)
         {
-            var filter = Builders<TransformationData>.Filter.Eq(m => m.Id, trimmedUrlId);
+            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, trimmedUrlId);
             var queryResult =  await _context.TransformationData
                                              .Find(filter)
                                              .FirstOrDefaultAsync();
@@ -29,7 +29,7 @@ namespace bitlyTest.Repositories
             return queryResult.OriginalUrl;
         }
 
-        public async Task<List<TransformationData>> GetTransformedData()
+        public async Task<List<RedirectionData>> GetTransformedData()
         {
             var queryResult = await _context.TransformationData
                                             .Find(_ => true)
@@ -44,9 +44,9 @@ namespace bitlyTest.Repositories
 
         public async Task Increment(int id)
         {
-            var filter = Builders<TransformationData>.Filter.Eq(m => m.Id, id);
-            var updateDefinition = new UpdateDefinitionBuilder<TransformationData>();
-            await _context.TransformationData.UpdateOneAsync(filter, updateDefinition.Inc(nameof(TransformationData.RedirectsCount), 1));
+            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, id);
+            var updateDefinition = new UpdateDefinitionBuilder<RedirectionData>();
+            await _context.TransformationData.UpdateOneAsync(filter, updateDefinition.Inc(nameof(RedirectionData.RedirectsCount), 1));
         }
     }
 }

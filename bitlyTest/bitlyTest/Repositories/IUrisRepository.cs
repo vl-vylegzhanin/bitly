@@ -4,11 +4,11 @@ using bitlyTest.Models;
 
 namespace bitlyTest.Repositories
 {
-    public interface IUrlsRepository
+    public interface IUrisRepository
     {
-        Task SaveShortLink(TransformationData transformationData);
+        Task SaveUrl(RedirectionData redirectionData);
         Task<string> GetOriginalLinkByTrimmerUrl(int trimmedUrlId);
-        Task<List<TransformationData>> GetTransformedData();
+        Task<List<RedirectionData>> GetTransformedData();
         Task<long> GetNextId();
         Task Increment(int id);
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using bitlyTest.Builders;
+using bitlyTest.Handlers;
 using bitlyTest.Models;
 using bitlyTest.Repositories;
 using bitlyTest.Swagger;
@@ -28,8 +30,9 @@ namespace bitlyTest
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
             var bitlyContext = new BitlyContext(serverConfig.MongoDB);
-
-            services.AddSingleton<IUrlsRepository>(r => new UrlsRepository(bitlyContext));
+            
+            services.AddSingleton<IUrisRepository>(r => new UrisRepository(bitlyContext));
+            services.AddTransient<IUriHandler, UriHandler>();
 
             services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -4,6 +4,6 @@ namespace bitlyTest.Models
 {
     public interface IBitlyContext
     {
-        IMongoCollection<TransformationData> TransformationData { get; }
+        IMongoCollection<RedirectionData> TransformationData { get; }
     }
 }
