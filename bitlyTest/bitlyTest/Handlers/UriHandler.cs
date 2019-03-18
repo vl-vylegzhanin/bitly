@@ -19,7 +19,7 @@ namespace bitlyTest.Handlers
 
         public async Task<RedirectResult> GetOriginalUrlById(HttpContext httpContext, int id)
         {
-            var originalUrl = await _urisRepository.GetOriginalLinkByTrimmerUrl(id);
+            var originalUrl = await _urisRepository.GetOriginalLinkById(id);
 
             if (originalUrl != null)
             {

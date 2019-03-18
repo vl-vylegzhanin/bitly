@@ -16,12 +16,20 @@ namespace bitlyTest.Repositories
 
         public async Task SaveUrl(RedirectionData redirectionData)
         {
-            await _context.TransformationData.InsertOneAsync(redirectionData);
+            var filter = Builders<RedirectionData>.Filter.Eq(m => m.OriginalUrl, redirectionData.OriginalUrl);
+
+            var queryResult = await _context.TransformationData
+                .Find(filter)
+                .FirstOrDefaultAsync();
+
+            if (queryResult == null)
+                await _context.TransformationData.InsertOneAsync(redirectionData);
+
         }
 
-        public async Task<string> GetOriginalLinkByTrimmerUrl(int trimmedUrlId)
+        public async Task<string> GetOriginalLinkById(int id)
         {
-            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, trimmedUrlId);
+            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, id);
             var queryResult =  await _context.TransformationData
                                              .Find(filter)
                                              .FirstOrDefaultAsync();
