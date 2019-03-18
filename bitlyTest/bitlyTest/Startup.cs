@@ -4,6 +4,7 @@ using bitlyTest.Builders;
 using bitlyTest.Handlers;
 using bitlyTest.Models;
 using bitlyTest.Repositories;
+using bitlyTest.Services;
 using bitlyTest.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,8 @@ namespace bitlyTest
             var serverConfig = new ServerConfig();
             Configuration.Bind(serverConfig);
             var bitlyContext = new BitlyContext(serverConfig.MongoDB);
-            
+
+            services.AddTransient<IUserIdentifierManager, UserIdentifierManager>();
             services.AddSingleton<IUrisRepository>(r => new UrisRepository(bitlyContext));
             services.AddTransient<IUriHandler, UriHandler>();
 

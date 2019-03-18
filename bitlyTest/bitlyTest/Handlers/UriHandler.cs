@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using bitlyTest.Builders;
 using bitlyTest.Models;
 using bitlyTest.Repositories;
+using bitlyTest.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,12 @@ namespace bitlyTest.Handlers
     public class UriHandler : IUriHandler
     {
         private readonly IUrisRepository _urisRepository;
+        private readonly IUserIdentifierManager _userIdentifierManager;
 
-        public UriHandler(IUrisRepository urisRepository)
+        public UriHandler(IUrisRepository urisRepository, IUserIdentifierManager userIdentifierManager)
         {
             _urisRepository = urisRepository;
+            _userIdentifierManager = userIdentifierManager;
         }
 
         public async Task<RedirectResult> GetOriginalUrlById(HttpContext httpContext, int id)
@@ -30,17 +33,26 @@ namespace bitlyTest.Handlers
             return null;
         }
         
-        public async Task<IEnumerable<RedirectionData>> GetUrlsWithTransitionStatistics()
+        public async Task<IEnumerable<TranformationData>> GetUrlsWithTransitionStatistics(string userGuid)
         {
-            var queryResult = await _urisRepository.GetTransformedData();
+            List<TranformationData> queryResult;
+
+            if (string.IsNullOrEmpty(userGuid))
+                queryResult = await _urisRepository.GetTransformedData();
+            else
+                queryResult = await _urisRepository.GetTransformedDataByUserId(userGuid);
+
             return queryResult;
         }
 
-        public async Task SaveUri(RequestPayload payload)
+        public async Task<string> SaveUri(RequestPayload payload)
         {
             var id = await _urisRepository.GetNextId();
-            var transformationData = new RedirectionData(id, payload.Uri, 0);
+            var userIdentifier = _userIdentifierManager.GetOrGenerateUserIdentifier(payload.UserId);
+            var transformationData = new TranformationData(id, payload.Uri, userIdentifier, 0);
             await _urisRepository.SaveUrl(transformationData);
+
+            return userIdentifier;
         }
     }
 }

@@ -14,22 +14,23 @@ namespace bitlyTest.Repositories
             _context = context;
         }
 
-        public async Task SaveUrl(RedirectionData redirectionData)
+        public async Task SaveUrl(TranformationData tranformationData)
         {
-            var filter = Builders<RedirectionData>.Filter.Eq(m => m.OriginalUrl, redirectionData.OriginalUrl);
+            var filter = Builders<TranformationData>.Filter.And(Builders<TranformationData>.Filter.Eq(m => m.OriginalUrl, tranformationData.OriginalUrl),
+                                                                             Builders<TranformationData>.Filter.Eq(m => m.UserGuid, tranformationData.UserGuid));
 
             var queryResult = await _context.TransformationData
-                .Find(filter)
-                .FirstOrDefaultAsync();
+                                            .Find(filter)
+                                            .FirstOrDefaultAsync();
 
             if (queryResult == null)
-                await _context.TransformationData.InsertOneAsync(redirectionData);
+                await _context.TransformationData.InsertOneAsync(tranformationData);
 
         }
 
         public async Task<string> GetOriginalLinkById(int id)
         {
-            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, id);
+            var filter = Builders<TranformationData>.Filter.Eq(m => m.Id, id);
             var queryResult =  await _context.TransformationData
                                              .Find(filter)
                                              .FirstOrDefaultAsync();
@@ -37,10 +38,19 @@ namespace bitlyTest.Repositories
             return queryResult.OriginalUrl;
         }
 
-        public async Task<List<RedirectionData>> GetTransformedData()
+        public async Task<List<TranformationData>> GetTransformedData()
         {
             var queryResult = await _context.TransformationData
                                             .Find(_ => true)
+                                            .ToListAsync();
+            return queryResult;
+        }
+
+        public async Task<List<TranformationData>> GetTransformedDataByUserId(string userGuid)
+        {
+            var filter = Builders<TranformationData>.Filter.Eq(m => m.UserGuid, userGuid);
+            var queryResult = await _context.TransformationData
+                                            .Find(filter)
                                             .ToListAsync();
             return queryResult;
         }
@@ -52,9 +62,9 @@ namespace bitlyTest.Repositories
 
         public async Task Increment(int id)
         {
-            var filter = Builders<RedirectionData>.Filter.Eq(m => m.Id, id);
-            var updateDefinition = new UpdateDefinitionBuilder<RedirectionData>();
-            await _context.TransformationData.UpdateOneAsync(filter, updateDefinition.Inc(nameof(RedirectionData.RedirectsCount), 1));
+            var filter = Builders<TranformationData>.Filter.Eq(m => m.Id, id);
+            var updateDefinition = new UpdateDefinitionBuilder<TranformationData>();
+            await _context.TransformationData.UpdateOneAsync(filter, updateDefinition.Inc(nameof(TranformationData.RedirectsCount), 1));
         }
     }
 }

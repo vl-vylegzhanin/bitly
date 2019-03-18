@@ -10,6 +10,6 @@ namespace bitlyTest.Models
             var client = new MongoClient(config.ConnectionString);
             _db = client.GetDatabase(config.Database);
         }
-        public IMongoCollection<RedirectionData> TransformationData => _db.GetCollection<RedirectionData>("RedirectionData");
+        public IMongoCollection<TranformationData> TransformationData => _db.GetCollection<TranformationData>("TranformationData");
     }
 }

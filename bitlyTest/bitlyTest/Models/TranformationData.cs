@@ -3,13 +3,14 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace bitlyTest.Models
 {
-    public class RedirectionData
+    public class TranformationData
     {
-        public RedirectionData(long id, string originalUrl, int redirectsCount)
+        public TranformationData(long id, string originalUrl, string userGuid, int redirectsCount)
         {
             Id = id;
             OriginalUrl = originalUrl;
             RedirectsCount = redirectsCount;
+            UserGuid = userGuid;
         }
 
         [BsonId]
@@ -17,5 +18,6 @@ namespace bitlyTest.Models
         public long Id { get; set; }
         public string OriginalUrl { get; set; }
         public int RedirectsCount { get; set; }
+        public string UserGuid { get; set; }
     }
 }

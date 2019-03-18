@@ -8,8 +8,8 @@ namespace bitlyTest.Handlers
 {
     public interface IUriHandler
     {
-        Task SaveUri(RequestPayload payload);
+        Task<string> SaveUri(RequestPayload payload);
         Task<RedirectResult> GetOriginalUrlById(HttpContext httpContext, int id);
-        Task<IEnumerable<RedirectionData>> GetUrlsWithTransitionStatistics();
+        Task<IEnumerable<TranformationData>> GetUrlsWithTransitionStatistics(string userGuid);
     }
 }

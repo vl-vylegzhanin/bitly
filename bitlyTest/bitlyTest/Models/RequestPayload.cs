@@ -7,7 +7,6 @@ namespace bitlyTest.Models
         [JsonProperty("uri", Required = Required.Always)]
         public string Uri { get; set; }
 
-        [JsonProperty("userId")]
         public string UserId { get; set; }
     }
 }

@@ -20,7 +20,9 @@ namespace bitlyTest.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<string>>> Get()
         {
-            var result = await _uriHandler.GetUrlsWithTransitionStatistics();
+            var userGuid = Request.Cookies["bitlyTestUserGuid"];
+
+            var result = await _uriHandler.GetUrlsWithTransitionStatistics(userGuid);
             return Ok(result);
         }
     }
