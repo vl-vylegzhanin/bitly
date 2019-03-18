@@ -1,15 +1,6 @@
 version: '3.4'
 
-services:
-  bitlytest:
-    image: bitlytest
-    ports:
-      - 81:80
-    build:
-      context: ./bitlyTest
-      dockerfile: Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Staging
+services: 
   mongo:
     image: mongo
     restart: always
@@ -27,5 +18,18 @@ services:
       environment:
         ME_CONFIG_MONGODB_ADMINUSERNAME: root
         ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      depends_on:
+        - mongo
+
+  bitlytest:
+      image: bitlytest
+      ports:
+        - 81:80
+      build:
+        context: ./bitlyTest
+        dockerfile: Dockerfile
+      environment:
+        ASPNETCORE_ENVIRONMENT: Staging
+        MongoDB__Host: mongo
       depends_on:
         - mongo

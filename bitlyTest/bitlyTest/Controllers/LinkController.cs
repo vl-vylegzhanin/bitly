@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace bitlyTest.Controllers
 {
     [ApiVersion("1.0")]
+    [Produces("application/json")]
     [ApiController]
     public class LinkController : ControllerBase
     {
@@ -23,16 +24,6 @@ namespace bitlyTest.Controllers
             _urlsRepository.Increment(id);
 
             return Redirect(originalUrl.Result);
-        }
-
-        [HttpPut]
-        [Route("api/v{version:apiVersion}/links/{url}")]
-        public ActionResult Put([FromRoute] string url)
-        {
-            var id = _urlsRepository.GetNextId();
-            var transformationData = new TransformationData(id.Result, url, 0);
-            _urlsRepository.SaveShortLink(transformationData);
-            return Ok();
         }
     }
 }
