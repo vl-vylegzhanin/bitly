@@ -20,10 +20,15 @@ namespace bitlyTest.Controllers
         [Route("api/v{version:apiVersion}/links/{id}")]
         public ActionResult Get([FromRoute] int id)
         {
-            var originalUrl = _urlsRepository.GetOriginalLinkByTrimmerUrl(id);
-            _urlsRepository.Increment(id);
+            var originalUrl = _urlsRepository.GetOriginalLinkByTrimmerUrl(id).Result;
 
-            return Redirect(originalUrl.Result);
+            if (originalUrl != null)
+            {
+                _urlsRepository.Increment(id);
+                return Redirect(originalUrl);
+            }
+
+            return BadRequest("No such Id");
         }
     }
 }

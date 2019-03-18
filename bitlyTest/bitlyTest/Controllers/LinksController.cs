@@ -21,7 +21,8 @@ namespace bitlyTest.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return Ok(_urlsRepository.GetTransformedData());
+            var result = _urlsRepository.GetTransformedData();
+            return Ok(result.Result);
         }
 
         [HttpPost]
