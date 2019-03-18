@@ -29,7 +29,7 @@ services:
         context: ./bitlyTest
         dockerfile: Dockerfile
       environment:
-        ASPNETCORE_ENVIRONMENT: Staging
+        ASPNETCORE_ENVIRONMENT: Development
         MongoDB__Host: mongo
       depends_on:
         - mongo
