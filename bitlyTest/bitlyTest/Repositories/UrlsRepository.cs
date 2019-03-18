@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using bitlyTest.Models;
 using MongoDB.Bson;
@@ -32,9 +31,10 @@ namespace bitlyTest.Repositories
 
         public async Task<List<TransformationData>> GetTransformedData()
         {
-            return await _context.TransformationData
-                                 .Find(_ => true)
-                                 .ToListAsync();
+            var queryResult = await _context.TransformationData
+                                            .Find(_ => true)
+                                            .ToListAsync();
+            return queryResult;
         }
 
         public async Task<long> GetNextId()
@@ -42,11 +42,11 @@ namespace bitlyTest.Repositories
             return await _context.TransformationData.CountDocumentsAsync(new BsonDocument()) + 1;
         }
 
-        public void Increment(int id)
+        public async Task Increment(int id)
         {
             var filter = Builders<TransformationData>.Filter.Eq(m => m.Id, id);
             var updateDefinition = new UpdateDefinitionBuilder<TransformationData>();
-            _context.TransformationData.FindOneAndUpdate<TransformationData>(filter, updateDefinition.Inc("RedirectsCount", 1));
+            await _context.TransformationData.UpdateOneAsync(filter, updateDefinition.Inc(nameof(TransformationData.RedirectsCount), 1));
         }
     }
 }

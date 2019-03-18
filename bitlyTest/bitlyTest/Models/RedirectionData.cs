@@ -3,9 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace bitlyTest.Models
 {
-    public class TransformationData
+    public class RedirectionData
     {
-        public TransformationData(long id, string originalUrl, int redirectsCount)
+        public RedirectionData(long id, string originalUrl, int redirectsCount)
         {
             Id = id;
             OriginalUrl = originalUrl;

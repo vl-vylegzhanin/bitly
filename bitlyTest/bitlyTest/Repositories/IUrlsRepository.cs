@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using bitlyTest.Models;
 
@@ -11,6 +10,6 @@ namespace bitlyTest.Repositories
         Task<string> GetOriginalLinkByTrimmerUrl(int trimmedUrlId);
         Task<List<TransformationData>> GetTransformedData();
         Task<long> GetNextId();
-        void Increment(int id);
+        Task Increment(int id);
     }
 }
